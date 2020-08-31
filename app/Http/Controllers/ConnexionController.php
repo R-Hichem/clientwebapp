@@ -93,7 +93,7 @@ class ConnexionController extends Controller
         ]);
         return $response;
         return response([
-            'message' => 'succcesss',
+            'message' => 'succcess',
         ], 200);
     }
 
