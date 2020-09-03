@@ -104,4 +104,55 @@ class ConnexionController extends Controller
             'card' => $card
         ], 200);
     }
+
+    public function addCard(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'card_number' => 'required',
+            'type' => 'required',
+            'ccv' => 'required',
+            'exp' => 'required',
+        ],[
+            'name.required' => 'Veillez saissir votre e-mail',
+            'card_number.required' => "Veillez saisir le numero de votre carte",
+            'type.required' => "Veillez choisir le type de votre carte",
+            'ccv.required' => "Veillez saisir votre ccv",
+            'exp.required' => "Veillez saisir la date d'expiration",
+        ]);
+
+        $acc = new Account();
+        $acc->name = $request->name;
+        $acc->user_id = $request->user()->id;
+        $acc->card_number = $request->card_number;
+        $acc->type = $request->type;
+        $acc->ccv = $request->ccv;
+        $acc->exp = $request->exp;
+        $acc->sold = 800000.23;
+        $acc->created_at = now();
+        $acc->updated_at = now();
+        $acc->save();
+        return response([
+            'message' => "sucess",
+            'newCard' => $acc
+        ], 200);
+    }
+
+
+    public function register(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+        ],[
+            'email.required' => 'Veillez saissir votre e-mail',
+            'email.email' => "format de l'email incorrect",
+            'password.required' => "Veillez saisir votre mot de passe",
+        ]);
+       return User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+    }
 }

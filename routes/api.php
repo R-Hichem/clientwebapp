@@ -37,3 +37,6 @@ Route::get('/test', function (Request $request){
     $response = Http::post($vendeuradress);
     return $response;
 } );
+
+Route::middleware('auth:sanctum')->post('/addCard', 'ConnexionController@addCard');
+Route::post('/register', 'ConnexionController@register');
